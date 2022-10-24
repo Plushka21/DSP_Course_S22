@@ -1,0 +1,356 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[left=15mm, top=20mm, right=15mm, bottom=10mm, nohead, nofoot]{geometry}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\hypersetup{colorlinks=true, urlcolor=blue}
+
+
+\begin{document}
+% \rule[depth]{width}{height}
+
+\begin{center}
+    \section*{Anton Buguev BS19-RO-01\\
+    Date of birth: 21.02.2001\\
+    The final examination on Digital Signal Processing\\
+    Innopolis University, Spring semester 2022}
+\end{center}
+
+\section{Task 1}
+\subsection{Problem}
+
+Let us define the following binary operation $(\_|\_)$ in $\pmb{C}^2$ for any two vectors $v=(v_1,v_2)$ and $w=(w_1,w_2)$. Let $(v|w)=(-1)^{day}month\cdot v_1w_1^*+year\cdot v_2w_2^*$. Is this operation a dot-product? If yes then prove, otherwise explain what dot-product axioms do hold and what do fail.
+
+\subsection{Solution}
+
+First, let us substitute numbers into our defined operations and we get:
+
+$$(v|w)=(-1)^{21}\cdot2\cdot v_1w_1^*+2001\cdot v_2w_2^*=$$
+$$=-2\cdot v_1w_1^*+2001\cdot v_2w_2^*$$
+
+In order to check if this operation is dot-product we need to consider axioms of inner product (or dot-product). These properties for all vectors $u,v,w \in \pmb{C}$ (complex vector space) and all scalars $a,b\in F$ (field of numbers) are:
+
+\begin{itemize}
+    \item Conjugate symmetry: $(u|v) = (v|u)^*$, where $^*$ is a conjugate
+operation on scalars.
+    \item Linearity in the first argument: $(au+bv|w) = a(u|w)+b(v|w)$.
+    \item Positive-definiteness: $(u|u) > 0$ assuming $u\neq 0$ and $(0|0) = 0$.
+\end{itemize}
+\emph{Source:} Lecture notes, Topic 1, Slide 32,
+\href{https://moodle.innopolis.university/pluginfile.php/142527/mod_resource/content/1/DSPt1spr22.pdf}{Link}\\
+
+Let us proceed and consider these properties separately:
+\begin{itemize}
+    \item Conjugate symmetry:
+    
+    First, we write $(w|v)^*$ by definition of our operation:
+    $$(w|v)^*=(-2\cdot w_1v_1^*+2001\cdot w_2v_2^*)^*$$
+    
+    Second, due to the properties of conjugates we can write:
+    $$(w|v)^*=(-2\cdot w_1v_1^*)^*+(2001\cdot w_2v_2^*)^*=$$
+    $$=-2\cdot w_1^*(v_1^*)^*+2001\cdot w_2^*(v_2^*)^*=$$
+    $$=-2\cdot w_1^*v_1+2001\cdot w_2^*v_2$$
+    
+    Applying commutative law for multiplication we finally get:
+    $$(w|v)^*=-2\cdot v_1w_1^*+2001\cdot v_2w_2^*$$
+    
+    Now we can see that 
+    $$(v|w) = (w|v)^* \text{, thus }\textbf{Conjugate symmetry axiom holds.}$$
+    
+    \item Linearity in the first argument:
+    
+    Let us take scalars $a$ and $b\in F$ and vector $u\in \pmb{C}$ and consider expression $(av+bw|u)$:
+    
+    $$(av+bw|u) = -2(av_1+bw_1)u_1^*+2001(av_2+bw_2)u_2^*$$
+    \newpage
+    Using distributivity of multiplication over addition we can write
+    $$(av+bw|u) = a(-2v_1u_1^*+2001v_2u_2^*)+b(-2w_1u_1^*+2001w_2u_2^*)$$
+    
+    We can notice that first term is in fact $a(v|u)$ and second is $b(w|u)$, therefore we can write
+    $$(av+bw|u) = a(v|u)+b(w|u) \text{, thus }\textbf{Linearity in the first argument axiom holds}$$
+    
+    \item Positive-definiteness: 
+    
+    First, let us write expression for $(v|v)$:
+    $$(v|v) = -2v_1v_1^*+2001v_2v_2^*$$
+    
+    Since $v_1$ and $v_2$ are complex numbers, therefore we write them in form
+    $$v_1=x_1+iy_1,\ v_2=x_2+iy_2$$
+    where $x_1,y_1,x_2,y_2\in \mathbb{R}$ and $i$ - imaginary unit, which means 
+    $$v_kv_k^*=(x_k+iy_k)(x_k-iy_k)=x_k^2+y_k^2=|v_k|^2$$
+    where $|v_k|$ argument of complex number $v_k$, $k\in \mathbb{N}$.\\
+    
+    Using this property we can write:
+    $$(v|v) = -2|v_1|^2+2001|v_2|^2$$
+
+    As we can see, the expression above is not always positive-definite because it contains negative number, which means it can be negative for some values of $v_1$ and $v_2$. For example, if $v_1=100$ and $v_2=1$ we get $$(v|v)=-20000+2001=-17999 < 0 \text{, thus }\textbf{Positive-definiteness axiom fails}$$ 
+\end{itemize}
+
+\subsection{Conclusion}
+One of of dot-product axioms fails, hence we can say that our defined operation is \textbf{not a dot-product}.
+
+\section{Task 3}
+\subsection{Problem}
+Starting with the definitions, compute cross-correlation, convolution, and circular convolution of the signals $a$ and $b$.
+\subsection{Solution}
+In our case signals $a$ and $b$ are:
+$$a=(\pmb{2}\ 1\ 0\ 2),\ b=(\pmb{2}\ 0\ 0\ 1)$$
+\begin{itemize}
+    \item Cross-correlation: 
+    
+    By definition: The deterministic cross-correlation of two signals $x$ and $y$ is another sequence $c_{x,y}=(..,c_{-2},c_{-1},\pmb{c_0},c_1,c_2,..)$ such that $c_n=\sum^{k=\infty}_{k=-\infty}x_k,y^*_{k-n}$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 10, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    First, let us adapt our sequences. In order to compute circular convolution we need to extend sequences to infinite sequences with \emph{finite support}, therefore let us add zeros in the beginning and the end of sequences $a$ and $b$:
+    $$a=(...\ 0\ 0\ \pmb{2}\ 1\ 0\ 2\ 0\ 0\ ...)$$$$b=(...\ 0\ 0\ \pmb{2}\ 0\ 0\ 1\ 0\ 0\ ...)$$
+    \newpage
+    Since elements $a_i$ and $b_i$ where $i<0$ and $i>3$ are zeros, therefore product between these elements and any other element will always lead to 0. Hence, during calculations let us consider only such elements $a_i$ and $b_i$ where $0\leq i\leq3$. And since sequences do not contain complex numbers, conjugate operation can be omitted.
+    
+    Now let us compute cross-correlation:
+    \begin{itemize}
+        \item $c_{-3}=\sum^{k=\infty}_{k=-\infty}a_k,b_{k+1}=
+        \pmb{a_0}\cdot{b_3}=
+        \pmb{2}\cdot1=
+        2$
+        \item $c_{-2}=\sum^{k=\infty}_{k=-\infty}a_k,b_{k+2}=
+        \pmb{a_0}\cdot{b_2}+a_1\cdot b_3=
+        \pmb{2}\cdot0+1\cdot1=
+        1$
+        \item $c_{-1}=\sum^{k=\infty}_{k=-\infty}a_k,b_{k+1}=
+        \pmb{a_0}\cdot{b_1}+a_1\cdot b_2+a_2\cdot b_3=
+        \pmb{2}\cdot0+1\cdot0+0\cdot1=
+        0$
+        \item $c_0=\sum^{k=\infty}_{k=-\infty}a_k,b_{k}=
+        \pmb{a_0}\cdot\pmb{b_0}+a_1\cdot b_1+a_2\cdot b_2 + a_3\cdot b_3=
+        \pmb{2}\cdot\pmb{2}+1\cdot0+0\cdot0+2\cdot1=
+        \pmb{6}$
+        \item $c_1=\sum^{k=\infty}_{k=-\infty}a_k,b_{k-1}=
+        a_1\cdot \pmb{b_0}+a_2\cdot b_1 + a_3\cdot b_2=
+        1\cdot\pmb{2}+0\cdot0+2\cdot0=
+        2$
+        \item $c_2=\sum^{k=\infty}_{k=-\infty}a_k,b_{k-2}=
+        a_2\cdot \pmb{b_0} + a_3\cdot b_1=
+        0\cdot\pmb{2}+2\cdot0=
+        0$
+        \item $c_3=\sum^{k=\infty}_{k=-\infty}a_k,b_{k-3}=
+        a_3\cdot \pmb{b_0}=
+        2\cdot\pmb{2}=
+        2$
+    \end{itemize}
+    
+    We can notice that for $i\leq -4$ and $i\geq4$ value of $c_i$ will always be 0, because corresponding $a_i$ and $b_i$ are 0, hence cross-correlation of $a$ and $b$ is:
+    $$c_{a,b}=(...\ 0\ 0\ 2\ 1\ 0\ \pmb{6}\ 2\ 0\ 4\ 0\ 0\ ...)$$
+    
+    \item Convolution:
+    
+    By definition: The convolution $(h*x)$ between signals $h$ and $x$ is a sequence such that\\ $(h*x)_n=\sum_{k\in\mathbb{Z}}h_{n-k}x_k=\sum_{k\in\mathbb{Z}}x_{n-k}h_k$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 31, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    As well as before, let us extend sequences $a$ and $b$ to infinite sequences with \emph{finite support} and fill them with zeros. Moreover, product of elements $a_i$ and $b_i$ where $i<-3$ and $i>3$ by any other element also leads to 0, hence we will not consider them. Therefore, the convolution is:
+    \begin{itemize}
+        \item $(a*b)_0=\sum^{k=\infty}_{k=-\infty}a_k,b_{-k}=
+        \pmb{a_0}\cdot\pmb{b_0}=
+        \pmb{2}\cdot\pmb{2}=\pmb{4}$
+        \item $(a*b)_1=\sum^{k=\infty}_{k=-\infty}a_k,b_{1-k}=
+        \pmb{a_0}\cdot b_1+a_1\cdot\pmb{b_0}=
+        \pmb{2}\cdot0+1\cdot\pmb{2}=2$
+        \item $(a*b)_2=\sum^{k=\infty}_{k=-\infty}a_k,b_{2-k}=
+        \pmb{a_0}\cdot b_2+a_1\cdot b_1+a_2\cdot\pmb{b_0}=
+        \pmb{2}\cdot0+1\cdot0+0\cdot\pmb{2}=0$
+        \item $(a*b)_3=\sum^{k=\infty}_{k=-\infty}a_k,b_{3-k}=
+        \pmb{a_0}\cdot b_3+a_1\cdot b_2+a_2\cdot b_1+a_3\cdot\pmb{b_0}=
+        \pmb{2}\cdot1+1\cdot0+0\cdot0+2\cdot\pmb{2}=6$
+        \item $(a*b)_4=\sum^{k=\infty}_{k=-\infty}a_k,b_{4-k}=
+        a_1\cdot b_3+a_2\cdot b_2+a_3\cdot b_1=
+        1\cdot1+0\cdot0+2\cdot0=1$
+        \item $(a*b)_5=\sum^{k=\infty}_{k=-\infty}a_k,b_{5-k}=
+        a_2\cdot b_3+a_3\cdot b_2=
+        0\cdot1+2\cdot0=0$
+        \item $(a*b)_6=\sum^{k=\infty}_{k=-\infty}a_k,b_{6-k}=
+        a_3\cdot b_3=
+        2\cdot1=2$
+    \end{itemize}
+    
+    Here we can notice that for $n\leq-1$ and $n\geq7$ elements of convolution are 0, hence convolution of signals $a$ and $b$ is:
+    $$(a*b)=(...\ 0\ 0\ \pmb{4}\ 2\ 0\ 6\ 1\ 0\ 2\ 0\ 0\ ...)$$
+    
+    \item Circular convolution:
+    
+    By definition: The circular convolution $(h^{(*)}x)$ between two finite sequences $h$ and $x$ of some fixed length $m>0$ is the following sequence of the same length $m$:\\ $(h^{(*)}x)_n=\sum^{k=m-1}_{k=0}h_kx_{(n-k)\text{mod}\ m}=\sum^{k=m-1}_{k=0}h_{(n-k)\text{mod}\ m}x_k$.
+    
+    \emph{Source:} Lecture notes, Topic 4, Slide 43, \href{https://moodle.innopolis.university/pluginfile.php/143329/mod_resource/content/1/DSPt4spr21.pdf}{Link}\\
+    
+    Our signals have length 4, i.e. $m=4$, therefore formula of circular convolution for signals $a$ and $b$ is:
+    $$(a^{(*)}b)_n=\sum^{k=3}_{k=0}a_{(n-k)\text{mod}4}b_k=\sum^{k=3}_{k=0}b_{(n-k)\text{mod}4}a_k$$
+
+\newpage   
+Now let us compute circular convolution:
+    
+    $$(a^{(*)}b)_0=\pmb{a_0}\cdot\pmb{b_0}+a_1\cdot b_3+a_2\cdot b_2+a_3\cdot b_1=
+    \pmb{2}\cdot\pmb{2}+1\cdot1+0\cdot0+2\cdot0=\pmb{5}$$
+    $$(a^{(*)}b)_1=\pmb{a_0}\cdot b_1+a_1\cdot \pmb{b_0}+a_2\cdot b_{3}+a_3\cdot b_{2}=
+    \pmb{2}\cdot0+1\cdot\pmb{2}+0\cdot1+2\cdot0=2$$
+    $$(a^{(*)}b)_2=\pmb{a_0}\cdot b_2+a_1\cdot b_1+a_2\cdot \pmb{b_{0}}+a_3\cdot b_{3}=
+    \pmb{2}\cdot0+1\cdot0+0\cdot\pmb{2}+2\cdot1=2$$
+    $$(a^{(*)}b)_3=\pmb{a_0}\cdot b_3+a_1\cdot b_2+a_2\cdot b_1+a_3\cdot \pmb{b_{0}}=
+    \pmb{2}\cdot1+1\cdot0+0\cdot0+2\cdot\pmb{2}=6$$
+    
+    Hence the result sequence is:
+    $$(a^{(*)}b)=(\pmb{5}\ 2\ 2\ 6)$$
+    
+    \subsection{Answer}
+    Cross-correlation:
+    $$c_{a,b}=(...\ 0\ 0\ 2\ 1\ 0\ \pmb{6}\ 2\ 0\ 4\ 0\ 0\ ...)$$
+    Convolution:
+    $$(a*b)=(...\ 0\ 0\ \pmb{4}\ 2\ 0\ 6\ 1\ 0\ 2\ 0\ 0\ ...)$$
+    Circular convolution:
+    $$(a^{(*)}b)=(\pmb{5}\ 2\ 2\ 6)$$
+\end{itemize}
+
+\section{Task 4}
+\subsection{Problem}
+Consider a moving-average system (operator) that maps any input signal $x=(x_n)$ output signal $(y_n)=\Big(\frac{(month)x_{n-1}+(day)x_{n+1}}{(year)}\Big)$. Examine whether this system is memoryless, causal, shift-invariant, BIBO-stable, linear. If the system is linear then draw its infinitary matrix.
+
+\subsection{Solution}
+
+First, let us substitute numbers into formula for output signal and we get
+
+$$(y_n)=\Big(\frac{2x_{n-1}+21x_{n+1}}{2001}\Big)$$
+
+Now let us consider properties of the properties of this system.
+
+\begin{itemize}
+    \item Linear:
+    
+    By definition: A linear system enjoys additivity and scaling that together are known in engineering \emph{as the superposition principle}: $T(ax+bu)=aT(x)+bT(u)$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 13, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    Let us consider equation for $T(ax+bu)$:
+    $$T(ax+bu)=\frac{2(ax_{n-1}+bu_{n-1})+21(ax_{n+1}+bu_{n+1})}{2001}=$$$$=\frac{a(2x_{n-1}+21x_{n+1})}{2001}+\frac{b(2u_{n-1}+21u_{n+1})}{2001}=aT(x)+bT(u)$$
+    Hence we can conclude that this system is \textbf{linear}.
+    
+    The infinite matrix of this system is:
+    $$\begin{pmatrix}
+    ... & ... & ... & ... & ...\\
+    ... & 0 & \frac{21}{2001} & 0 & ...\\
+    ... & \frac{2}{2001} & 0 & \frac{21}{2001} & ...\\
+    ... & 0 & \frac{2}{2001} & 0 & ...\\
+    ... & ... & ... & ... & ...
+    \end{pmatrix}$$
+    
+    \item Memoryless:
+    
+    By definition: A system $T$ is \emph{memoryless} if for every $k\in\mathbb{Z}$ and all input signals $x$ and $x'$ the following implication holds: $x_k=x'_k$ implies $(Tx)_k=(Tx')_k$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 15, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+        Let us write equations for $(Tx)_k$ and $(Tx')_k$:
+    $$(Tx)_k=\Big(\frac{2x_{k-1}+21x_{k+1}}{2001}\Big),\ (Tx')_k=\Big(\frac{2x'_{k-1}+21x'_{k+1}}{2001}\Big)$$
+    Since formulas for $(Tx)_k$ and $(Tx')_k$ contain elements $x_{k-1}$, $x'_{k-1}$, $x_{k+1}$ and $x'_{k+1}$ which we do not have information about whether they are equal to each other as well, therefore we cannot say that our system is memoryless. Hence, this system is \textbf{not memoryless}.
+
+    \item Causal:
+    
+    By definition: A system $T$ is called \emph{causal} if for every $k\in \mathbb{Z}$ and all input signals $x$ and $x'$ the following implication holds: $x_{(-\infty,k]}=x'_{(-\infty,k]}$ implies $(Tx)x_{(-\infty,k]}=(Tx')x_{(-\infty,k]}$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 15, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    Similar to the previous case, equations for $(Tx)_k$ and $(Tx')_k$ contain elements $x_{k+1}$ and $x'_{k+1}$ which do not belong to $x_{(-\infty,k]}$ and $x'_{(-\infty,k]}$ respectively, therefore we cannot definitely say that these elements are equal as well. Hence we conclude that this system is \textbf{not causal}.
+    
+    \item Shift-invariant:
+    
+    By definition: A linear system $T$ is \emph{shift-invariant} (LSI thereafter) if for every input signal $T$ (shifted $x$) is shifted $Tx$, i.t. if $\big((Tx)_{n-k}\big)=T(x_{n-k})$ for every input signal $x$ and $k\in\mathbb{Z}$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 16, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    Let us consider equations for $\big((Tx)_{n-k}\big)$ and $T(x_{n-k})$:
+    $$\big((Tx)_{n-k}\big)=(y)_{n-k}=\frac{2x_{n-k-1}+21x_{n-k+1}}{2001}$$
+    $$T(x_{n-k})=\frac{2x_{n-k-1}+21x_{n-k+1}}{2001}$$
+    As we can see, these equations are equal to each other, therefore $\big((Tx)_{n-k}\big)=T(x_{n-k})$, hence we can conclude that this system is \textbf{shift-invariant}
+    
+    \item BIBO-stable:
+    
+    By definition: A system $T$ is called \emph{ bounded-input, bounded-output stable} (BIBO-stable) if a bounded input always produces bounded output: $Tx\in l^{\infty}$ fir all $x\in l^{\infty}$.
+    
+    \emph{Source:} Lecture notes, Topic 3, Slide 18, \href{https://moodle.innopolis.university/pluginfile.php/142933/mod_resource/content/1/DSPt3spr22.pdf}{Link}\\
+    
+    According to the theorem from the same lecture notes the LSI system is BIBO-stable iff its impulse response is absolutely summable. The impulse response of this system is:
+    $$(..., 0, 0, \frac{21}{2001}, 0, \frac{2}{2001}, 0, 0, ...)$$
+    Therefore the sum of the response can be computed:
+    $$\frac{21}{2001}+\frac{2}{2001}=\frac{23}{2001}$$
+    
+    As we can see the impulse response is summable, hence we can conclude that this system is \textbf{BIBO-stable}.
+\end{itemize}
+
+    \subsection{Answer}
+    This system is linear, shift-invariant and BIBO-stable, however, it is not memoryless and not causal.
+
+\section{Task 5}
+\subsection{Problem}
+Firstly, starting your answer with definition of DTFT, compute $A(\omega)$– DTFT or the signal $a$ Then (also starting with definition of IDTFT) compute IDTFT for $A(\omega)$ and validate that in this case IDTFT is the inverse for DTFT indeed.
+
+\subsection{Solution}
+\begin{enumerate}
+    \item Definition: \textbf{The Discrete-Time Fourier Transform (DTFT)} maps each filter $x$ (i.e., two-side infinite absolutely summable sequence) to the frequency response \textit{spectrum} function $X(e^{j\omega})=\sum_{k\in\mathbb{Z}}e^{-j\omega k}x_k$ of real argument $\omega$.
+    
+    \emph{Source:} Lecture notes, Topic 4, Slide 9, \href{https://moodle.innopolis.university/pluginfile.php/143329/mod_resource/content/1/DSPt4spr21.pdf}{Link}\\
+    
+    In our case we have sequence $a$:
+    $$a=(\pmb{2}\ 1\ 0\ 2)$$
+    
+    Now let us compute DTFT:
+    $$A(\omega)=\sum^{k=3}_{k=0}e^{-j\omega k}a_k=2e^{-j\omega\cdot0}+e^{-j\omega\cdot1}+0e^{-j\omega\cdot2}+2e^{-j\omega\cdot3}$$
+    Hence we have
+    $$A(\omega)=2+e^{-j\omega}+2e^{-3j\omega}$$
+    
+    \item Definition: \textbf{The Inverse-DTFT} of $2\pi$-periodic function $f(\omega)$ of the real argument is the following (two-side infinite) sequence $x=(...\ x_{-2}\ x_{-1}\ x_0\ x_1\ x_2\ ...)$ where $x_n=\frac{1}{2\pi}\int^{\pi}_{-pi}f(\omega)e^{j\omega n}d\omega$ for all $n\in\mathbb{Z}$.
+    
+    \emph{Source:} Lecture notes, Topic 4, Slide 10, \href{https://moodle.innopolis.university/pluginfile.php/143329/mod_resource/content/1/DSPt4spr21.pdf}{Link}\\
+    
+    Let us compute inverse-DTFT for $0\leq n\leq3$:
+    \begin{itemize}
+        \item $\pmb{a_0}=\frac{1}{2\pi}\int^{\pi}_{-\pi}(2+e^{-j\omega}+2e^{-3j\omega})e^{j\omega\cdot0}d\omega=
+        \frac{1}{2\pi}\int^{\pi}_{-\pi}(2+e^{-j\omega}+2e^{-3j\omega})d\omega=
+        \frac{1}{2\pi}(2\omega-\frac{e^{-j\omega}}{j}-\frac{2e^{-3j\omega}}{3j})\Big|^{\pi}_{-\pi}=\\
+        =\frac{1}{2\pi}\big(2(\pi+\pi)-\frac{1}{j}(e^{-j\pi}-e^{j\pi})-\frac{2}{3j}(e^{-3j\pi}-e^{3j\pi})\big)$\\
+        
+        Applying Euler formula $e^{j\phi}=\cos{\phi}+j\sin{\phi}$ we get:
+        
+        $\pmb{a_0}=\frac{1}{2\pi}\big(4\pi-\frac{1}{j}(\cos{\pi}-j\sin{\pi}-\cos{\pi}-j\sin{pi})-\frac{2}{3j}(\cos{3\pi}-j\sin{3\pi}-\cos{3\pi}-j\sin{3\pi})\big)=\frac{1}{2\pi}\cdot4\pi=\pmb{2}$\\
+        
+        Let us apply the same procedure for the rest values of $n$:
+        
+        \item $a_1=\frac{1}{2\pi}\int^{\pi}_{-\pi}(2+e^{-j\omega}+2e^{-3j\omega})e^{j\omega\cdot1}d\omega=
+        \frac{1}{2\pi}\int^{\pi}_{-\pi}(2e^{j\omega}+1+2e^{-2j\omega})d\omega=1$
+        
+        \item $a_2=\frac{1}{2\pi}\int^{\pi}_{-\pi}(2+e^{-j\omega}+2e^{-3j\omega})e^{j\omega\cdot2}d\omega=
+        \frac{1}{2\pi}\int^{\pi}_{-\pi}(2e^{j\omega}+e^{j\omega}+2e^{-j\omega})d\omega=0$
+        
+        \item $a_3=\frac{1}{2\pi}\int^{\pi}_{-\pi}(2+e^{-j\omega}+2e^{-3j\omega})e^{j\omega\cdot3}d\omega=
+        \frac{1}{2\pi}\int^{\pi}_{-\pi}(2e^{3j\omega}+e^{2j\omega}+2)d\omega=2$
+    \end{itemize}
+    Therefore result sequence of inverse-DTFT is:
+    $$a=(\pmb{2}\ 1\ 0\ 2)$$
+    
+    \item Comparison:
+    
+    As we can see, the result of inverse-DTFT is indeed corresponds to original sequence $a$. Hence, we can say that DTFT and inverse-DTFT are correct.
+\end{enumerate}
+
+\subsection{Conclusion}
+
+DTFT:
+$$A(\omega)=2+e^{-j\omega}+2e^{-3j\omega}$$
+Inverse-DTFT:
+$$a=(\pmb{2}\ 1\ 0\ 2)$$
+
+Inverse-DTFT sequence is equal to the original sequence.
+
+\end{document}
